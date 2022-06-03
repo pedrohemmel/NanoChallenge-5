@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Diff</key>
+	<array>
+		<dict>
+			<key>ModifiedContent</key>
+			<string>import UIKit
+
+////Instanciando classe contexto em uma variável
+//var contexto = Contexto()
+//Criando variável que fará a decisão que o usuário escolher
+var op : String = "1"
+
+//Criando lista que armazenará as opções que o usuário terá
+var arrayOp : [String] = ["1", "2", "3", "4"]
+
+sleep(1)
+
+show(Contexto().textosEssenciais[0])
+
+//Enquanto op for diferente da opção "Parar aplicação", o laço de repetição vai continuar rodando
+while (op != "4") {
+    show(Contexto().textosEssenciais[1].image())
+    show(Contexto().textosEssenciais[2])
+    
+    //Solicitando escolha do usuário sobre as escolhas
+    op = askForChoice("Escolha uma opção", strings: arrayOp)
+    
+    quebraLinha(qtdLinhas: 3)
+    
+    //Executando funções dependendo de seus 
+    switch op {
+    case "1":
+        mostraLogistica()
+        quebraLinha(qtdLinhas: 3)
+    case "2":
+        show(simulaEmbarque())
+        quebraLinha(qtdLinhas: 3)
+    case "3":
+        simulaEmbarqueInterativo()
+        quebraLinha(qtdLinhas: 3)
+    case "4":
+        break
+    default:
+        break
+    }
+}
+
+///////////////////////////////////////
+/////////////FUNÇÕES/////////////
+///////////////////////////////////////
+
+//Função criada para pular linha quantas vezes for atribuido no parâmetro
+func quebraLinha(qtdLinhas: Int) {
+    usleep(500000)
+    for i in 1...qtdLinhas {
+        show("")
+    }
+}
+
+//Fazendo função que vai printar todos itens de textosLogistica
+func mostraLogistica() {
+    var cont : Int = 0
+    for i in Contexto().textosLogisticaTransporte {
+        if(cont == 0) {
+            show(i.image())
+        } else if(cont &gt; 4 &amp;&amp; cont != 8) {
+            show(i)
+            sleep(5)
+        } else {
+            show(i)
+            sleep(1)
+        }
+        cont = cont + 1
+    }
+}
+
+//Função que simula o embarque de pessoas ao ônibus público
+func simulaEmbarque() -&gt; String  {
+    //Fazendo instancias da classe que vai simular as pessoas que vão embarcar no ônibus
+    let bruno : PessoaCivil = PessoaCivil(nome: "Bruno", idade: 23, eEstudante: true, eDeficiente: false, temDinheiro: true, cargoProfissional: "Desenvolvedor de Sistemas")
+    let thiago : PessoaCivil = PessoaCivil(nome: "Thiago", idade: 5, eEstudante: false, eDeficiente: true, temDinheiro: false, cargoProfissional: "Estudante")
+    let josefilda : PessoaCivil = PessoaCivil(nome: "Josefilda", idade: 66, eEstudante: true, eDeficiente: false, temDinheiro: true, cargoProfissional: "Costureira")
+    let gustavo : PessoaCivil = PessoaCivil(nome: "Gustavo", idade: 27, eEstudante: false, eDeficiente: false, temDinheiro: true, cargoProfissional: "Policia civil")
+    
+    //Chamando as funções de cada objeto para estruturar a história
+    bruno.mostrarHistoria()
+    sleep(1)
+    show("\(bruno.nome):")
+    bruno.passarCatraca()
+    
+    quebraLinha(qtdLinhas: 1)
+    sleep(4)
+    
+    thiago.mostrarHistoria()
+    sleep(1)
+    show("\(thiago.nome):")
+    thiago.passarCatraca()
+    
+    quebraLinha(qtdLinhas: 1)
+    sleep(4)
+    
+    josefilda.mostrarHistoria()
+    sleep(1)
+    show("\(josefilda.nome):")
+    josefilda.passarCatraca()
+    
+    quebraLinha(qtdLinhas: 1)
+    sleep(4)
+    
+    gustavo.mostrarHistoria()
+    sleep(1)
+    show("\(gustavo.nome):")
+    gustavo.passarCatraca()
+    
+    quebraLinha(qtdLinhas: 1)
+    sleep(4)
+    
+    //Retornando sucesso da função
+    return "Simulação completa com sucesso!"
+}
+
+func simulaEmbarqueInterativo() {
+    //Criando variável array de PessoaCivil que vai armazenar todas pessoas que o usuário adicionar
+    var listaDPessoas : [PessoaCivil] = []
+    
+    show("Bem vindo ao cadastro de perfis! No momento temos 1 ônibus disponível com capacidade máxima de 20 pessoas. Bora começar a criar?")
+    
+    sleep(2)
+    
+    for i in 0...19 {
+        //Criando variáveis que estruturarão o objeto
+        var nome: String
+        var idade: Int
+        var eEstudante : Bool
+        var eDeficiente : Bool
+        var temDinheiro : Bool
+        var cargoProfissional : String
+        var auxBool : [String] = ["1", "2"]
+        
+        
+        show("Digite o nome da \(i + 1)˚ pessoa do ônibus: ")
+        nome = ask("Digite o nome aqui")
+        
+        sleep(1)
+        
+        show("Digite a idade da pessoa: ")
+        idade = Int(ask("Digite a idade aqui")) ?? 0
+        
+        sleep(1)
+        
+        //Criando variável auxiliar para atribuir valor a eEstudante
+        var eEstudanteNum : Int
+        show("Se a pessoa for estudante, selecione &lt;1&gt;, se não, selecione &lt;2&gt;: ")
+        eEstudanteNum = Int(askForChoice("Selecione um número", strings: auxBool)) ?? 2
+        
+        if eEstudanteNum == 1 {
+            eEstudante = true
+        } else {
+            eEstudante = false 
+        }
+        
+        sleep(1)
+        
+        //Criando variável auxiliar para atribuir valor a eDeficiente
+        var eDeficienteNum : Int
+        show("Se a pessoa for deficiênte, selecione &lt;1&gt;, se não, selecione &lt;2&gt;: ")
+        eDeficienteNum = Int(askForChoice("Selecione um número", strings: auxBool)) ?? 2
+        
+        if eDeficienteNum == 1  {
+            eDeficiente = true
+        } else {
+            eDeficiente = false 
+        }
+        
+        sleep(1)
+        
+        //Criando variável auxiliar para atribuir valor a temDinheiro
+        var temDinheiroNum : Int
+        show("Se a pessoa tiver dinheiro para passagem, selecione &lt;1&gt;, se não, selecione &lt;2&gt;: ")
+        temDinheiroNum = Int(askForChoice("Selecione um número", strings: auxBool)) ?? 2
+        
+        if temDinheiroNum == 1  {
+            temDinheiro = true
+        } else {
+            temDinheiro = false 
+        }
+        
+        sleep(1)
+        
+        show("Digite o cargo profissional da pessoa:  ")
+        cargoProfissional = ask("Digite o nome aqui")
+        
+        sleep(1)
+        
+            //Instanciando uma nova pessoa dentro do array de PessoaCivil
+        listaDPessoas.append(PessoaCivil(nome: nome, idade: idade, eEstudante: eEstudante, eDeficiente: eDeficiente, temDinheiro: temDinheiro, cargoProfissional: cargoProfissional))
+        
+        //Dando a opção de parar de adicionar pessoas para o usuário
+        var escolha : Int
+        show("Deseja parar de adicionar pessoas? Se sim, selecione &lt;1&gt;, se não, selecione &lt;2&gt;: ")
+        escolha = Int(askForChoice("Selecione um número", strings: auxBool)) ?? 1
+        
+        //Quebrando o laço de repetição
+        if escolha == 1 {
+            break
+        } 
+    }
+    
+    quebraLinha(qtdLinhas: 1)
+    
+    var auxBool : [String] = ["1", "2"]
+    
+    //Dando a opção do usuário começar a simulação ou parar
+    var op : Int
+    show("Bom, agora que você ja tem as pessoas criadas, deseja começar a simulação? Se sim, selecione &lt;1&gt;, se não, selecione &lt;2&gt;: ")
+    op = Int(askForChoice("Selecione um número", strings: auxBool)) ?? 1
+    
+    quebraLinha(qtdLinhas: 1)
+    
+    //Enquanto o usuário selecionar a opção de começar a simulação o laço vai continuar
+    while op == 1 {
+        for i in 0...listaDPessoas.count - 1 {
+            //Chamando as funções de cada objeto para estruturar a história
+            listaDPessoas[i].mostrarHistoria()
+            sleep(1)
+            show("\(listaDPessoas[i].nome):")
+            listaDPessoas[i].passarCatraca()
+            
+            quebraLinha(qtdLinhas: 1)
+            sleep(4)
+        }
+        //Dando a opção do usuário começar a simulação ou parar
+        var op : Int
+        show("Bom, agora que você ja tem as pessoas criadas, deseja começar a simulação? Se sim, selecione &lt;1&gt;, se não, selecione &lt;2&gt;: ")
+        op = Int(askForChoice("Selecione um número", strings: auxBool)) ?? 1
+        
+        //Quebrando o laço de repetição
+        if op == 2 {
+            break
+        }
+    }
+    
+}
+
+
+
+
+
+
+</string>
+			<key>ModifiedRange</key>
+			<string>{265, 7736}</string>
+			<key>OriginalContent</key>
+			<string>show("/*#-localizable-zone(whatIsYourNameText)*/What’s your name?/*#-end-localizable-zone*/")
+
+let name = ask("/*#-localizable-zone(nameText)*/Name/*#-end-localizable-zone*/")
+
+show("/*#-localizable-zone(hiText)*/Hi /*#-end-localizable-zone*/" + name)
+</string>
+			<key>OriginalRange</key>
+			<string>{265, 252}</string>
+		</dict>
+	</array>
+	<key>File</key>
+	<string>Chapters/Answers.playgroundchapter/Pages/Text.playgroundpage/main.swift</string>
+</dict>
+</plist>
